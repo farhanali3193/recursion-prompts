@@ -258,6 +258,28 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+  if (x <= 0 || y <= 0) {
+    return null;
+  }
+  if (x === 1 || y === 1) {
+    return 1;
+  }
+  if (y > x) {
+    var temp = x; //12
+    x = y; //16
+    y = temp;
+  }
+  if (x > y) {
+    if (x % y === 0) {
+      return y;
+    }
+
+    var q = Math.floor(x/y);
+    var r = x - q*y
+    return gcd(y, r);
+
+  }
+
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
@@ -316,11 +338,11 @@ var countValuesInObj = function(obj, value) {
   //Pure recursive approach
   var result = 0;
   for (var key in obj) {
-    console.log(key)
-    console.log('------')
+    // console.log(key)
+    // console.log('------')
     if (obj[key] === value){
       result++;
-      console.log('result', result)
+      // console.log('result', result)
     } else if (typeof obj[key] === 'object') {
       result = result + countValuesInObj(obj[key], value)
     }
@@ -349,14 +371,14 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
     if (key === oldKey && typeof obj[key] === 'object') {
       obj[newKey] = obj[key];
       delete obj[key]
-      console.log(key);
+      // console.log(key);
       replaceKeysInObj(obj[newKey], oldKey, newKey)
     } else if (key === oldKey && typeof obj[key] !== 'object') {
-        console.log(key);
+        // console.log(key);
         obj[newKey] = obj[key];
         delete obj[key]
     } else if (key !== oldKey && typeof obj[key] === 'object') {
-      console.log(key);
+      // console.log(key);
       replaceKeysInObj(obj[key], oldKey, newKey)
     }
   }
