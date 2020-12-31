@@ -179,16 +179,77 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  if (x < 0) {
+    return -modulo(-x, y)
+  } else if (x > 0){
+    if (y < 0) {
+      y = -y;
+    }
+    if (x === y) {
+      return 0;
+    }
+    if (x < y) {
+      return x;
+    }
+    return modulo(x-y, y);
+  } else if (y === 0) {
+    return NaN;
+  } else {
+    return 0;
+  }
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  if (x === 0 || y === 0) {
+    return 0;
+  } else if ((x > 0 && y > 0) || (x < 0 && y < 0)) {
+    if (x < 0 && y < 0) {
+      x = -x;
+      y = -y;
+    }
+    if (y === 1) {
+      return x;
+    }
+    return x + multiply(x, y - 1)
+  } else {
+    if (x < 0) {
+      return -multiply(-x, y)
+    }
+    if (y < 0) {
+      return -multiply(x, -y)
+    }
+  }
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  if (y === 0) {
+    return NaN;
+  }
+  if (x === 0) {
+    return 0;
+  }
+
+  if ((x > 0 && y > 0) || (x < 0 && y < 0)) {
+    if (x < 0 && y < 0) {
+      x = -x;
+      y = -y;
+    }
+    if (x >= 0 && x < y) {
+      return 0;
+    }
+    return 1 + divide(x-y, y);
+  } else {
+    if (x < 0) {
+      return -(divide(-x, y))
+    }
+    if (y < 0) {
+      return -(divide(x, -y))
+    }
+  }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
