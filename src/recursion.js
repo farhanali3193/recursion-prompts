@@ -513,6 +513,21 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  if (n < 0) {
+    return null;
+  }
+  var result = [0, 1];
+  if (n === 0 || n === 1) {
+    return result[n];
+  }
+  if (n === 2) {
+    return result[n-2] + result[n-1]
+  }
+
+  var first = nthFibo(n - 1)
+  var second = nthFibo(n - 2)
+  var sum = first + second;
+  return sum
 };
 
 // 27. Given an array of words, return a new array containing each word capitalized.
