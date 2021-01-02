@@ -359,17 +359,49 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+  var result = [];
+  if (n === 0) {
+    return [];
+  }
+  if (n %5 ===0 && n%3 === 0) {
+    result.unshift('FizzBuzz');
+  } else if (n % 5 === 0) {
+    result.unshift('Buzz')
+  } else if (n % 3 === 0) {
+    result.unshift('Fizz')
+  } else if (n%3 !== 0 && n%5 !== 0) {
+    result.unshift(String(n))
+    // return result;
+  }
+    result = (fizzBuzz(n - 1)).concat(result);
+
+  return result;
 };
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  if (array.length === 1) {
+    if (array[0] === value) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+  return countOccurrence(array.slice(0,1), value) + countOccurrence(array.slice(1),value);
 };
 
 // 21. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+  var result = [];
+  if (array.length === 1) {
+    result.push(callback(array[0]));
+    return result;
+  }
+  result = result.concat(rMap(array.slice(0,1),callback)).concat(rMap(array.slice(1), callback));
+  return result;
 };
 
 // 22. Write a function that counts the number of times a key occurs in an object.
@@ -377,6 +409,17 @@ var rMap = function(array, callback) {
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
 var countKeysInObj = function(obj, key) {
+  var result = 0;
+
+  for (var key1 in obj) {
+    if (key1 === key) {
+      result++;
+    }
+    if (typeof obj[key1] === 'object') {
+      result = result + countKeysInObj(obj[key1], key)
+    }
+  }
+  return result;
 };
 
 // 23. Write a function that counts the number of times a value occurs in an object.
@@ -441,6 +484,27 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
+
+  if (n <= 0) {
+    return null;
+  }
+
+  var result = [0, 1];
+  if (n === 1) {
+    return result;
+  }
+  if (n === 2) {
+    result.push(result[n-2] + result[n-1])
+    return result;
+  }
+
+  var fib = fibonacci(n - 1);
+  var first =fib[n - 1]
+  var second = fib[n - 2]
+  var sum = first + second;
+  fib = fib.concat(sum)
+
+  return fib;
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
