@@ -534,11 +534,28 @@ var nthFibo = function(n) {
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(array) {
+  var result = [];
+  if (array.length === 1) {
+    result.push(array[0].toUpperCase());
+    return result;
+  }
+
+  result = result.concat(capitalizeWords(array.slice(0,1))).concat(capitalizeWords(array.slice(1)))
+  return result;
 };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
 var capitalizeFirst = function(array) {
+  var result = [];
+  if (array.length === 1) {
+    var capital = array[0][0].toUpperCase()
+    result.push(capital + array[0].slice(1));
+    return result;
+  }
+
+  result = result.concat(capitalizeFirst(array.slice(0,1))).concat(capitalizeFirst(array.slice(1)))
+  return result;
 };
 
 // 29. Return the sum of all even numbers in an object containing nested objects.
@@ -551,16 +568,50 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+  var result = 0;
+  for (var key in obj) {
+    if (obj[key] % 2 === 0){
+      result += obj[key];
+    } else if (typeof obj[key] === 'object') {
+      result = result + nestedEvenSum(obj[key])
+    }
+  }
+  return result;
 };
 
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+    var result = [];
+  if (!Array.isArray(array)) {
+    return array;
+  }
+  array.forEach(function(arr) {
+    result = result.concat(flatten(arr))
+  })
+  return result;
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {
+  if (obj === undefined) {
+    obj = {}
+  }
+   if (str.length === 1) {
+    if (obj[str[0]] === undefined) {
+      obj[str[0]] = 1;
+      return obj;
+    } else {
+      obj[str[0]]++;
+      return obj;
+    }
+  }
+  obj = {
+    ...letterTally(str.slice(0,1), obj),
+    ...letterTally(str.slice(1), obj)
+  }
+  return obj;
 };
 
 // 32. Eliminate consecutive duplicates in a list. If the list contains repeated
