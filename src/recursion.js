@@ -690,6 +690,22 @@ var alternateSign = function(array) {
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  var arr = str.split(' ');
+  var result = '';
+  if (arr.length === 1) {
+    var numArr = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+    var num = Number(arr[0])
+    if (Number.isNaN(num)) {
+      result += arr[0];
+      return result;
+    } else {
+      result += numArr[num];
+      return result;
+    }
+  }
+
+  result = numToText(arr.slice(0,1).join('')) + ' ' + numToText(arr.slice(1).join(' '));
+  return result;
 };
 
 
